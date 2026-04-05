@@ -29,9 +29,25 @@ async function fetchTMDB<T>(endpoint: string, options: RequestInit = {}): Promis
 
 export async function getTrendingMovies(
   page = 1,
+  query?: string,
+  year?: string
 ): Promise<TMDBResponse<Movie>> {
+  if (query) {
+    return fetchTMDB<TMDBResponse<Movie>>(
+      `/search/movie?query=${encodeURIComponent(query)}&page=${page}${year ? `&primary_release_year=${year}` : ""}`,
+      { cache: "no-store" },
+    );
+  }
+
+  if (year) {
+    return fetchTMDB<TMDBResponse<Movie>>(
+      `/discover/movie?sort_by=popularity.desc&page=${page}&primary_release_year=${year}`,
+      { next: { revalidate: 3600 } },
+    );
+  }
+
   return fetchTMDB<TMDBResponse<Movie>>(`/trending/movie/day?page=${page}`, {
-    next: { revalidate: 3600 }, 
+    next: { revalidate: 3600 },
   });
 }
 
@@ -41,14 +57,3 @@ export async function getMovieDetails(id: string): Promise<Movie> {
   });
 }
 
-export async function searchMovies(
-  query: string,
-  page = 1,
-): Promise<TMDBResponse<Movie>> {
-  return fetchTMDB<TMDBResponse<Movie>>(
-    `/search/movie?query=${encodeURIComponent(query)}&page=${page}`,
-    {
-      cache: "no-store", 
-    },
-  );
-}

@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Movie } from "@/types/tmdb";
@@ -7,9 +9,11 @@ interface MovieCardProps {
 }
 
 export default function MovieCard({ movie }: MovieCardProps) {
-  const imageUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "/fallback-poster.png"; 
+  const [imageUrl, setImageUrl] = useState(
+    movie.poster_path
+      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+      : "/fallback-poster.png",
+  );
 
   return (
     <Link
@@ -23,6 +27,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           className="object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={() => setImageUrl("/fallback-poster.png")}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-60" />
       </div>
