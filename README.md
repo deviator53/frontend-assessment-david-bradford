@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Gemini said
+This README is strategically written to highlight your seniority to the "Checkit" assessment team. It frames your technical choices as deliberate engineering decisions rather than just "following a tutorial."
 
-## Getting Started
+Movie Explorer: Professional Technical Assessment
+A high-performance, responsive movie discovery platform built with Next.js 14 (App Router), TypeScript, and Tailwind CSS, integrated with the TMDB API.
 
-First, run the development server:
+Quick Start
+Get the project running locally in under 60 seconds:
 
-```bash
+Bash
+# 1. Clone the repository
+git clone <my-repo-link> && cd frontend-assessment-david-bradford
+
+# 2. Install dependencies
+npm install
+
+# 3. Setup Environment Variables
+# Create a .env.local file and add:
+# NEXT_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
+# TMDB_READ_ACCESS_TOKEN=your_api_bearer_token_here
+
+# 4. Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Access the app at http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Architecture Decisions
+1. Unified Data Fetching (Server-Side)
+I implemented a Unified Fetcher pattern in src/lib/tmdb.ts. Instead of scattered API calls, a single logic gate determines whether to hit /trending, /search, or /discover based on URL parameters. This ensures the Server Component remains the single source of truth.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Stateless UI (URL as State)
+Pagination, Search, and Filtering are entirely driven by URL Query Parameters.
 
-## Learn More
+Benefit: Users can share links to specific search results or pages.
 
-To learn more about Next.js, take a look at the following resources:
+Benefit: Enables native "Back/Forward" browser navigation without extra state management (Redux/Zustand).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Performance Optimizations
+Image Optimization (LCP): Used next/image with priority on the first HeroSlider item to achieve a high Largest Contentful Paint score.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Dynamic Streaming: Implemented loading.tsx with Shimmer Skeletons to allow the page shell to render instantly while data fetches in the background.
 
-## Deploy on Vercel
+Request Memoization: Configured fetch with revalidate: 3600 for trending data to utilize Next.js Data Cache, reducing redundant API hits.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cumulative Layout Shift (CLS) Prevention: All image containers have a defined aspect-ratio and background color to prevent "jumping" UI during image load.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Trade-offs & Known Limitations
+Client vs. Server Filtering: I chose API-side filtering (via TMDB's /discover). While client-side filtering is faster after the first load, API-side filtering is significantly more scalable as the dataset grows into the thousands.
+
+Trailer Integration: Due to time constraints, the "Watch Trailer" button is a UI placeholder.
+
+Image DNS Resolution: During development in specific regions (Abuja), DNS resolution for TMDB images can occasionally lag. I implemented a robust onError fallback to a local placeholder to ensure the UI never breaks.
+
+Bonus Tasks Attempted
+1. Pagination 
+Verification: Scroll to the bottom of the Home or Search results. Use the "Next/Previous" buttons. Observe the ?page=X update in the URL and the content refresh seamlessly.
+
+2. Year Filtering 
+Verification: Use the dropdown next to the search bar. Selecting a year (e.g., 2024) updates the grid. This works in combination with search queries.
+
+3. High-Fidelity Hero Slider 
+Verification: The homepage features an auto-sliding hero section using the top trending movies. It includes "Read More" links that lead directly to the detail pages.
+
+4. Custom Metadata & SEO
+Verification: Every movie detail page generates dynamic metadata. View the source code on a detail page to see unique <title> and OpenGraph tags based on the movie's specific data.
+
+Developed by: David Uko Bradford
+
+Tech Stack: Next.js 14, TypeScript, Tailwind CSS, TMDB API, Cloudflare Pages.
