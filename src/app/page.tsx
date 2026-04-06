@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { getTrendingMovies } from "@/lib/tmdb";
 import MovieGrid from "@/components/MovieGrid";
 import SearchBar from "@/components/SearchBar";

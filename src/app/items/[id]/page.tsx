@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import Image from "next/image";
 import { getMovieDetails } from "@/lib/tmdb";
 import { Metadata } from "next";
@@ -52,7 +53,7 @@ export default async function MovieDetailPage({ params }: Props) {
             alt={movie.title}
             fill
             className="object-cover opacity-40"
-            priority 
+            priority
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
