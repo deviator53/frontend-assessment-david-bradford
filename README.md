@@ -1,5 +1,4 @@
-Gemini said
-This README is strategically written to highlight your seniority to the "Checkit" assessment team. It frames your technical choices as deliberate engineering decisions rather than just "following a tutorial."
+
 
 Movie Explorer: Professional Technical Assessment
 A high-performance, responsive movie discovery platform built with Next.js 14 (App Router), TypeScript, and Tailwind CSS, integrated with the TMDB API.
@@ -66,4 +65,4 @@ Verification: Every movie detail page generates dynamic metadata. View the sourc
 
 Developed by: David Uko Bradford
 
-Tech Stack: Next.js 14, TypeScript, Tailwind CSS, TMDB API, Cloudflare Pages.
+Tech Stack: Next.js 14, TypeScript, Tailwind CSS, TMDB API, Vercel.
