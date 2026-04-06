@@ -3,24 +3,6 @@
 Movie Explorer: Professional Technical Assessment
 A high-performance, responsive movie discovery platform built with Next.js 14 (App Router), TypeScript, and Tailwind CSS, integrated with the TMDB API.
 
-Quick Start
-Get the project running locally in under 60 seconds:
-
-Bash
-# 1. Clone the repository
-git clone <my-repo-link> && cd frontend-assessment-david-bradford
-
-# 2. Install dependencies
-npm install
-
-# 3. Setup Environment Variables
-# Create a .env.local file and add:
-# NEXT_PUBLIC_TMDB_BASE_URL=https://api.themoviedb.org/3
-# TMDB_READ_ACCESS_TOKEN=your_api_bearer_token_here
-
-# 4. Start the development server
-npm run dev
-Access the app at http://localhost:3000
 
 Architecture Decisions
 1. Unified Data Fetching (Server-Side)
